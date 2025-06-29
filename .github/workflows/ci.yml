@@ -7,17 +7,13 @@ on:
   pull_request:
     branches: [ main ]
 
-env:
-  DOTNET_VERSION: ['8.0.x', '9.0.x']
-  NUGET_PACKAGE_NAME: JustConsoleApp
-
 jobs:
   build:
     name: Build for .NET ${{ matrix.dotnet }}
     runs-on: ubuntu-latest
     strategy:
       matrix:
-        dotnet: ${{ env.DOTNET_VERSION }}
+        dotnet: ['8.0.x', '9.0.x']
     
     steps:
     - uses: actions/checkout@v4
