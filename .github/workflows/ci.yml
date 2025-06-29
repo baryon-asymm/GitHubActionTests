@@ -34,22 +34,6 @@ jobs:
     - name: Test
       run: dotnet test --configuration Release --verbosity normal
 
-  release:
-    needs: build
-    runs-on: ubuntu-latest
-    if: ${{ github.event_name == 'workflow_dispatch' }}
-
-    steps:
-    - name: Checkout code
-      uses: actions/checkout@v4
-
-    - name: Setup .NET 8 and 9
-      uses: actions/setup-dotnet@v4
-      with:
-        dotnet-version: |
-          8.x
-          9.x
-
     - name: Get latest commit message
       id: get_commit
       run: |
@@ -71,8 +55,11 @@ jobs:
         body: ${{ steps.get_commit.outputs.message }}
       env:
         GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+    
+    - name: Pack NuGet
+      run: dotnet pack --configuration Release --no-build --output ./nupkg
 
     - name: Publish NuGet package
-      run: dotnet nuget push "**/ZeroResult.*.nupkg" --source https://api.nuget.org/v3/index.json --api-key ${{ secrets.NUGET_API_KEY }}
+      run: dotnet nuget push "./nupkg/*.nupkg" --source https://api.nuget.org/v3/index.json --api-key ${{ secrets.NUGET_API_KEY }}
       env:
         NUGET_API_KEY: ${{ secrets.NUGET_API_KEY }}
