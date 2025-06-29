@@ -3,89 +3,68 @@ name: CI
 on:
   push:
     branches: [ main ]
-    tags: [ 'v*' ]
-  pull_request:
-    branches: [ main ]
+    tags:
+      - 'v*'
 
 jobs:
   build:
-    name: Build for .NET 8 and 9
     runs-on: ubuntu-latest
-    
-    steps:
-    - uses: actions/checkout@v4
-    
-    # Устанавливаем обе версии .NET
-    - name: Setup .NET 8
-      uses: actions/setup-dotnet@v4
-      with:
-        dotnet-version: '8.0.x'
-    
-    - name: Setup .NET 9
-      uses: actions/setup-dotnet@v4
-      with:
-        dotnet-version: '9.0.x'
-    
-    # Собираем для .NET 8
-    - name: Build for .NET 8
-      run: |
-        dotnet restore --runtime linux-x64
-        dotnet build --configuration Release --runtime linux-x64 -p:TargetFramework=net8.0
-        dotnet test --configuration Release --no-build --verbosity normal -p:TargetFramework=net8.0
-        dotnet pack --configuration Release --no-build -p:TargetFramework=net8.0 -p:PackageOutputPath=./artifacts-net8
-    
-    # Собираем для .NET 9
-    - name: Build for .NET 9
-      run: |
-        dotnet restore --runtime linux-x64
-        dotnet build --configuration Release --runtime linux-x64 -p:TargetFramework=net9.0
-        dotnet test --configuration Release --no-build --verbosity normal -p:TargetFramework=net9.0
-        dotnet pack --configuration Release --no-build -p:TargetFramework=net9.0 -p:PackageOutputPath=./artifacts-net9
-    
-    # Объединяем артефакты
-    - name: Combine artifacts
-      run: |
-        mkdir -p ./artifacts
-        cp ./artifacts-net8/*.nupkg ./artifacts/
-        cp ./artifacts-net9/*.nupkg ./artifacts/
-      if: github.ref == 'refs/heads/main' || startsWith(github.ref, 'refs/tags/')
-    
-    - name: Upload artifacts
-      uses: actions/upload-artifact@v4
-      with:
-        name: nuget-packages
-        path: ./artifacts/*.nupkg
-      if: github.ref == 'refs/heads/main' || startsWith(github.ref, 'refs/tags/')
 
-  publish:
-    name: Publish NuGet and Create Release
+    steps:
+    - name: Checkout code
+      uses: actions/checkout@v4
+
+    - name: Setup .NET 8 and 9
+      uses: actions/setup-dotnet@v4
+      with:
+        dotnet-version: |
+          8.x
+          9.x
+
+    - name: Display .NET SDKs
+      run: dotnet --list-sdks
+
+    - name: Restore dependencies
+      run: dotnet restore
+
+    - name: Build
+      run: dotnet build --configuration Release --no-restore
+
+    - name: Test
+      run: dotnet test --no-restore --verbosity normal
+
+  release:
     needs: build
     runs-on: ubuntu-latest
-    if: startsWith(github.ref, 'refs/tags/')
-    
+    if: startsWith(github.ref, 'refs/tags/v')
+
     steps:
-    - name: Download all artifacts
-      uses: actions/download-artifact@v4
-      with:
-        path: ./artifacts
-    
-    - name: Publish to NuGet
+    - name: Checkout code
+      uses: actions/checkout@v4
+
+    - name: Get latest commit message
+      id: get_commit
       run: |
-        dotnet nuget push ./artifacts/**/*.nupkg \
-          --skip-duplicate \
-          --api-key ${{ secrets.NUGET_API_KEY }} \
-          --source https://api.nuget.org/v3/index.json
-    
-    - name: Get release notes from last commit
-      id: last-commit
-      run: |
-        MESSAGE=$(git log -1 --pretty=%B)
-        echo "message=$MESSAGE" >> $GITHUB_OUTPUT
-    
+        message=$(git log -1 --pretty=format:"%s")
+        echo "message=$message" >> $GITHUB_OUTPUT
+
     - name: Create GitHub Release
-      uses: softprops/action-gh-release@v2
+      uses: softprops/action-gh-release@v1
       with:
         tag_name: ${{ github.ref_name }}
-        name: ${{ github.ref_name }}
-        body: ${{ steps.last-commit.outputs.message }}
-        files: ./artifacts/**/*
+        name: Release ${{ github.ref_name }}
+        body: ${{ steps.get_commit.outputs.message }}
+      env:
+        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+
+    - name: Setup .NET 8 and 9
+      uses: actions/setup-dotnet@v4
+      with:
+        dotnet-version: |
+          8.x
+          9.x
+
+    - name: Publish NuGet package
+      run: dotnet nuget push "**/ZeroResult.*.nupkg" --source https://api.nuget.org/v3/index.json --api-key ${{ secrets.NUGET_API_KEY }}
+      env:
+        NUGET_API_KEY: ${{ secrets.NUGET_API_KEY }}
