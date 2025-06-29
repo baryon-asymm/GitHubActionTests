@@ -4,6 +4,9 @@
     <TargetFrameworks>net8.0; net9.0</TargetFrameworks>
     <ImplicitUsings>enable</ImplicitUsings>
     <Nullable>enable</Nullable>
+    <Authors>Eduard Burachek</Authors>
+        <Description>A .NET library for Differential Evolution optimization with multi-processing and SIMD acceleration.</Description>
+        <Copyright>Copyright (c) Eduard Burachek, 2025</Copyright>
   </PropertyGroup>
 
 </Project>
