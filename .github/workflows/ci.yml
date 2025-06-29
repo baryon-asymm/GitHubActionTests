@@ -9,19 +9,14 @@ on:
 
 jobs:
   build:
-    name: Build for .NET ${{ matrix.dotnet }}
+    name: Build and Test
     runs-on: ubuntu-latest
-    strategy:
-      matrix:
-        dotnet: ['8.0.x', '9.0.x']
     
     steps:
     - uses: actions/checkout@v4
     
-    - name: Setup .NET ${{ matrix.dotnet }}
+    - name: Setup .NET
       uses: actions/setup-dotnet@v4
-      with:
-        dotnet-version: ${{ matrix.dotnet }}
     
     - name: Restore dependencies
       run: dotnet restore
@@ -32,25 +27,25 @@ jobs:
     - name: Test
       run: dotnet test --configuration Release --no-build --verbosity normal
     
-    - name: Pack
+    - name: Create NuGet package
       run: dotnet pack --configuration Release --no-build --output ./artifacts
       if: github.ref == 'refs/heads/main' || startsWith(github.ref, 'refs/tags/')
     
-    - name: Upload artifacts
+    - name: Upload package artifacts
       uses: actions/upload-artifact@v4
       with:
-        name: nuget-packages-${{ matrix.dotnet }}
+        name: nuget-packages
         path: ./artifacts/*.nupkg
       if: github.ref == 'refs/heads/main' || startsWith(github.ref, 'refs/tags/')
 
   publish:
-    name: Publish NuGet and Create Release
+    name: Publish Release
     needs: build
     runs-on: ubuntu-latest
     if: startsWith(github.ref, 'refs/tags/')
     
     steps:
-    - name: Download all artifacts
+    - name: Download artifacts
       uses: actions/download-artifact@v4
       with:
         path: ./artifacts
@@ -62,13 +57,13 @@ jobs:
           --api-key ${{ secrets.NUGET_API_KEY }} \
           --source https://api.nuget.org/v3/index.json
     
-    - name: Get release notes from last commit
+    - name: Get release notes
       id: last-commit
       run: |
         MESSAGE=$(git log -1 --pretty=%B)
         echo "message=$MESSAGE" >> $GITHUB_OUTPUT
     
-    - name: Create GitHub Release
+    - name: Create Release
       uses: softprops/action-gh-release@v2
       with:
         tag_name: ${{ github.ref_name }}
