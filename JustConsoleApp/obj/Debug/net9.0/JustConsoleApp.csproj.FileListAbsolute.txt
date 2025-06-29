@@ -1,0 +1,12 @@
+C:\Projects\GitHubActionTests\JustConsoleApp\bin\Debug\net9.0\JustConsoleApp.deps.json
+C:\Projects\GitHubActionTests\JustConsoleApp\bin\Debug\net9.0\JustConsoleApp.dll
+C:\Projects\GitHubActionTests\JustConsoleApp\bin\Debug\net9.0\JustConsoleApp.pdb
+C:\Projects\GitHubActionTests\JustConsoleApp\obj\Debug\net9.0\JustConsoleApp.GeneratedMSBuildEditorConfig.editorconfig
+C:\Projects\GitHubActionTests\JustConsoleApp\obj\Debug\net9.0\JustConsoleApp.AssemblyInfoInputs.cache
+C:\Projects\GitHubActionTests\JustConsoleApp\obj\Debug\net9.0\JustConsoleApp.AssemblyInfo.cs
+C:\Projects\GitHubActionTests\JustConsoleApp\obj\Debug\net9.0\JustConsoleApp.csproj.CoreCompileInputs.cache
+C:\Projects\GitHubActionTests\JustConsoleApp\obj\Debug\net9.0\JustConsoleApp.sourcelink.json
+C:\Projects\GitHubActionTests\JustConsoleApp\obj\Debug\net9.0\JustConsoleApp.dll
+C:\Projects\GitHubActionTests\JustConsoleApp\obj\Debug\net9.0\refint\JustConsoleApp.dll
+C:\Projects\GitHubActionTests\JustConsoleApp\obj\Debug\net9.0\JustConsoleApp.pdb
+C:\Projects\GitHubActionTests\JustConsoleApp\obj\Debug\net9.0\ref\JustConsoleApp.dll

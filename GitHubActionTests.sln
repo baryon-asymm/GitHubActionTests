@@ -1,19 +1,32 @@
+﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 17
 VisualStudioVersion = 17.5.2.0
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "JustConsoleApp", "JustConsoleApp\JustConsoleApp.csproj", "{DDD4D0C4-FBE9-6354-EA31-9D3D8ED6D954}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "JustConsoleApp", "JustConsoleApp\JustConsoleApp.csproj", "{455CAFC7-505B-4846-9593-4DED63DCEEA6}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
+		Debug|x64 = Debug|x64
+		Debug|x86 = Debug|x86
 		Release|Any CPU = Release|Any CPU
+		Release|x64 = Release|x64
+		Release|x86 = Release|x86
 	EndGlobalSection
 	GlobalSection(ProjectConfigurationPlatforms) = postSolution
-		{DDD4D0C4-FBE9-6354-EA31-9D3D8ED6D954}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{DDD4D0C4-FBE9-6354-EA31-9D3D8ED6D954}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{DDD4D0C4-FBE9-6354-EA31-9D3D8ED6D954}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{DDD4D0C4-FBE9-6354-EA31-9D3D8ED6D954}.Release|Any CPU.Build.0 = Release|Any CPU
+		{455CAFC7-505B-4846-9593-4DED63DCEEA6}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{455CAFC7-505B-4846-9593-4DED63DCEEA6}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{455CAFC7-505B-4846-9593-4DED63DCEEA6}.Debug|x64.ActiveCfg = Debug|Any CPU
+		{455CAFC7-505B-4846-9593-4DED63DCEEA6}.Debug|x64.Build.0 = Debug|Any CPU
+		{455CAFC7-505B-4846-9593-4DED63DCEEA6}.Debug|x86.ActiveCfg = Debug|Any CPU
+		{455CAFC7-505B-4846-9593-4DED63DCEEA6}.Debug|x86.Build.0 = Debug|Any CPU
+		{455CAFC7-505B-4846-9593-4DED63DCEEA6}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{455CAFC7-505B-4846-9593-4DED63DCEEA6}.Release|Any CPU.Build.0 = Release|Any CPU
+		{455CAFC7-505B-4846-9593-4DED63DCEEA6}.Release|x64.ActiveCfg = Release|Any CPU
+		{455CAFC7-505B-4846-9593-4DED63DCEEA6}.Release|x64.Build.0 = Release|Any CPU
+		{455CAFC7-505B-4846-9593-4DED63DCEEA6}.Release|x86.ActiveCfg = Release|Any CPU
+		{455CAFC7-505B-4846-9593-4DED63DCEEA6}.Release|x86.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
